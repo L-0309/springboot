@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liu.springboot.mapper.FileMapper">
+
+    <resultMap id="BaseResultMap" type="com.liu.springboot.pojo.Files">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="name" column="name" jdbcType="VARCHAR"/>
+            <result property="type" column="type" jdbcType="VARCHAR"/>
+            <result property="size" column="size" jdbcType="DOUBLE"/>
+            <result property="singName" column="sing_name" jdbcType="DOUBLE"/>
+            <result property="songName" column="song_name" jdbcType="DOUBLE"/>
+            <result property="songLength" column="song_length" jdbcType="DOUBLE"/>
+            <result property="url" column="url" jdbcType="VARCHAR"/>
+            <result property="isDelete" column="id_delete" jdbcType="TINYINT"/>
+            <result property="enable" column="enable" jdbcType="TINYINT"/>
+            <result property="classifierId" column="classifier_id" jdbcType="TINYINT"/>
+        <collection property="classifier" javaType="com.liu.springboot.pojo.Classifier">
+            <result property="name" column="classifier_name"/>
+        </collection>
+    </resultMap>
+
+    <select id="findAllUser" resultMap="BaseResultMap">
+        select a.*,b.name as classifier_name
+        from liu.sys_file a inner join liu.sys_classifier b on a.classifier_id = b.id and a.is_delete = false
+        <where>
+            <if test="fileDto.name != null and fileDto.name != ''">
+                and a.name like #{fileDto.name}
+            </if>
+            <if test="fileDto.songName != null and fileDto.songName != ''">
+                and a.song_name like #{fileDto.songName}
+            </if>
+            <if test="fileDto.classifierId != null and fileDto.classifierId > 0">
+                and a.classifier_id = #{fileDto.classifierId}
+            </if>
+        </where>
+    </select>
+</mapper>

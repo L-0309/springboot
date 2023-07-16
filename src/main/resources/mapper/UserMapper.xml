@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liu.springboot.mapper.UserMapper">
+    <resultMap id="BaseResultMap" type="com.liu.springboot.pojo.User">
+        <id property="id" column="id" jdbcType="INTEGER"/>
+        <result property="username" column="username" jdbcType="VARCHAR"/>
+        <result property="password" column="password" jdbcType="VARCHAR"/>
+        <result property="nickname" column="nickname" jdbcType="VARCHAR"/>
+        <result property="email" column="email" jdbcType="VARCHAR"/>
+        <result property="phone" column="phone" jdbcType="VARCHAR"/>
+        <result property="addressId" column="address_id" jdbcType="INTEGER"/>
+        <result property="avatar" column="avatar_url" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="role" column="role" jdbcType="VARCHAR"/>
+        <association property="address" javaType="com.liu.springboot.pojo.Address">
+            <result property="address" column="address" jdbcType="VARCHAR"/>
+        </association>
+        <association property="soleKey" javaType="com.liu.springboot.pojo.Role">
+            <result property="name" column="role_name" jdbcType="VARCHAR"/>
+            <result property="soleKey" column="sole_key" jdbcType="VARCHAR"/>
+        </association>
+    </resultMap>
+
+    <resultMap id="BaseResultMapGetCourse" type="com.liu.springboot.pojo.User">
+        <result property="id" column="u_id" jdbcType="INTEGER"/>
+        <result property="username" column="username" jdbcType="VARCHAR"/>
+        <result property="nickname" column="nickname" jdbcType="VARCHAR"/>
+        <result property="role" column="role" jdbcType="VARCHAR"/>
+        <collection property="courses" javaType="java.util.List" ofType="com.liu.springboot.pojo.Course">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="name" column="name" jdbcType="VARCHAR"/>
+            <result property="score" column="score" jdbcType="INTEGER"/>
+            <result property="times" column="times" jdbcType="VARCHAR"/>
+            <result property="state" column="state" jdbcType="TINYINT"/>
+            <result property="teacherId" column="teacher_id" jdbcType="INTEGER"/>
+        </collection>
+    </resultMap>
+
+
+    <select id="findAllUser" resultMap="BaseResultMap">
+        select a.*,b.address,c.name as role_name,c.sole_key
+        from liu.sys_user a join liu.sys_address b  on a.address_id = b.id left join liu.sys_role c
+        on a.role = c.sole_key
+        <where>
+            <if test="userDto.username != null and userDto.username != ''">
+                and a.username like #{userDto.username}
+            </if>
+            <if test="userDto.email != null and userDto.email != ''">
+                and a.email like #{userDto.email}
+            </if>
+            <if test="userDto.role != null and userDto.role != ''">
+                and a.role = #{userDto.role}
+            </if>
+            <if test="userDto.addressId != null and userDto.addressId > 0">
+                and a.address_id = #{userDto.addressId}
+            </if>
+        </where>
+    </select>
+    <select id="getCourseByRole" resultMap="BaseResultMapGetCourse">
+        select a.id as u_id, a.username, a.nickname,a.role,b.*
+        from liu.sys_user a join liu.sys_course b on a.id = b.teacher_id and b.teacher_id = #{userDto.id}
+    </select>
+</mapper>

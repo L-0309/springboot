@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liu.springboot.mapper.CourseMapper">
+    <resultMap id="BaseResultMap" type="com.liu.springboot.pojo.Course">
+        <id property="id" column="id" jdbcType="INTEGER"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="score" column="score" jdbcType="INTEGER"/>
+        <result property="times" column="times" jdbcType="VARCHAR"/>
+        <result property="state" column="state" jdbcType="TINYINT"/>
+        <result property="teacherId" column="teacher_id" jdbcType="INTEGER"/>
+        <result property="teacher" column="teacher" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <resultMap id="BaseResultMapStudentOfCourse" type="com.liu.springboot.pojo.Course">
+        <id property="id" column="id" jdbcType="INTEGER"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="score" column="score" jdbcType="INTEGER"/>
+        <result property="times" column="times" jdbcType="VARCHAR"/>
+        <result property="state" column="state" jdbcType="TINYINT"/>
+        <collection property="students" javaType="java.util.List" ofType="com.liu.springboot.pojo.User">
+            <result property="username" column="username" jdbcType="VARCHAR"/>
+            <result property="nickname" column="nickname" jdbcType="VARCHAR"/>
+            <result property="email" column="email" jdbcType="VARCHAR"/>
+            <result property="phone" column="phone" jdbcType="VARCHAR"/>
+        </collection>
+    </resultMap>
+
+    <select id="findPage" resultMap="BaseResultMap">
+        select a.*,b.nickname as teacher
+        from liu.sys_course a left join liu.sys_user b on a.teacher_id = b.id
+        <where>
+            <if test="courseDto.name != null and courseDto.name != ''">
+                and a.name like #{courseDto.name}
+            </if>
+            <if test="courseDto.teacherId != null and courseDto.teacherId > 0">
+                and a.teacher_id = #{courseDto.teacherId}
+            </if>
+        </where>
+    </select>
+    <select id="findCourseStudent" parameterType="string" resultMap="BaseResultMap">
+        select a.*, b.nickname as teacher
+        from liu.sys_course a
+                 join liu.sys_user b on a.teacher_id = b.id and a.id in (${courseId})
+    </select>
+
+
+    <select id="studentsOfCourse" resultMap="BaseResultMapStudentOfCourse">
+        select a.*, c.username, c.nickname, c.email, c.phone
+        from liu.sys_course a
+                 join liu.sys_student_course b
+                      on a.id = b.course_id
+                 join liu.sys_user c on b.student_id = c.id and a.id = #{id}
+    </select>
+</mapper>

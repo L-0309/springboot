@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liu.springboot.mapper.ArticleMapper">
+
+    <resultMap id="BaseResultMap" type="com.liu.springboot.pojo.Article">
+        <id property="id" column="id" jdbcType="INTEGER"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="content" column="content" jdbcType="VARCHAR"/>
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+        <result property="time" column="time" jdbcType="TIMESTAMP"/>
+        <association property="user" javaType="com.liu.springboot.pojo.User">
+            <result property="username" column="username" jdbcType="VARCHAR" />
+            <result property="email" column="email" jdbcType="VARCHAR" />
+            <result property="nickname" column="nickname" jdbcType="VARCHAR" />
+            <result property="phone" column="phone" jdbcType="VARCHAR" />
+        </association>
+    </resultMap>
+
+    <select id="findPage" resultMap="BaseResultMap">
+        select a.*,b.username,b.email,b.nickname,b.phone
+        from liu.sys_article a
+                 join liu.sys_user b
+                      on a.user_id = b.id
+        <where>
+            <if test="article.name != null and article.name != ''">
+                and a.name like #{article.name}
+            </if>
+            <if test="article.userId != null and article.userId > 0">
+                and a.user_id = #{article.userId}
+            </if>
+        </where>
+    </select>
+</mapper>
