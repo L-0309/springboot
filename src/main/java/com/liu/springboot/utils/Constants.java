@@ -2,6 +2,7 @@ package com.liu.springboot.utils;
 
 import com.liu.springboot.pojo.Files;
 import com.liu.springboot.pojo.dto.FileMusicDto;
+import com.liu.springboot.pojo.dto.FilesPictureDto;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,6 +76,11 @@ public interface Constants {
     String FILES_MUSIC_KEY = "FILES_MUSIC_KEY";
 
     /**
+     * 图片缓存
+     */
+    String FILES_PICTURE_KEY = "FILES_PICTURE_KEY";
+
+    /**
      * 返回前端进行封装
      * @param list 查询出的所有文件
      * @return {@link List}<{@link FileMusicDto}>
@@ -85,6 +91,19 @@ public interface Constants {
             musicDtoList.add(new FileMusicDto(files.getSingName(),files.getSongName(),files.getUrl(),files.getType()));
         });
         return musicDtoList;
+    }
+
+    /**
+     * 对图片返回结果进行封装
+     * @param list 查询的数据
+     * @return {@link List}<{@link FilesPictureDto}>
+     */
+    default List<FilesPictureDto> filesPictureDto(List<Files> list) {
+        List<FilesPictureDto> filesPictureDto = new ArrayList<>();
+        list.forEach(files -> {
+            filesPictureDto.add(new FilesPictureDto(files.getUrl(),files.getUrl(),600,400,files.getName(),files.getType()));
+        });
+        return filesPictureDto;
     }
 
 

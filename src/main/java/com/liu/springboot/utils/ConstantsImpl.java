@@ -2,7 +2,9 @@ package com.liu.springboot.utils;
 
 import com.liu.springboot.pojo.Files;
 import com.liu.springboot.pojo.dto.FileMusicDto;
+import com.liu.springboot.pojo.dto.FilesPictureDto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,6 +18,11 @@ public class ConstantsImpl implements Constants{
     @Override
     public List<FileMusicDto> fileMusicDto(List<Files> list) {
         return Constants.super.fileMusicDto(list);
+    }
+
+    @Override
+    public List<FilesPictureDto> filesPictureDto(List<Files> list) {
+        return Constants.super.filesPictureDto(list);
     }
 
     /**

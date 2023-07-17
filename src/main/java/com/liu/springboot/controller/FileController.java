@@ -11,6 +11,7 @@ import com.liu.springboot.exception.ServiceException;
 import com.liu.springboot.pojo.Files;
 import com.liu.springboot.pojo.dto.FileMusicDto;
 import com.liu.springboot.pojo.dto.FileQueryDto;
+import com.liu.springboot.pojo.dto.FilesPictureDto;
 import com.liu.springboot.service.FileService;
 import com.liu.springboot.utils.*;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -150,6 +151,30 @@ public class FileController {
             }, true);
         }
         return Result.success(files);
+    }
+
+    /**
+     * 获取图片接口
+     * @return Result<?>
+     */
+    @GetMapping("/items/picture")
+    public Result<?> itemsPicture() {
+        String jsonStr = stringRedisTemplate.opsForValue().get(Constants.FILES_PICTURE_KEY);
+        List<FilesPictureDto> pictureDto;
+        if (StrUtil.isBlank(jsonStr)) {
+            //取出来的json是空的
+            QueryWrapper<Files> queryWrapper = new QueryWrapper<>();
+            queryWrapper.eq("is_delete",false);
+            List<Files> list = fileService.list(queryWrapper);
+            pictureDto = new ConstantsImpl().filesPictureDto(list);
+            //再去缓存到redis
+            stringRedisTemplate.opsForValue().set(Constants.FILES_PICTURE_KEY, JSONUtil.toJsonStr(pictureDto));
+        }else {
+            //从redis缓存中获取数据
+            pictureDto = JSONUtil.toBean(jsonStr, new TypeReference<List<FilesPictureDto>>() {
+            }, true);
+        }
+        return Result.success(pictureDto);
     }
 
 
