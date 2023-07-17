@@ -26,7 +26,7 @@
 3.  提交代码
 4.  新建 Pull Request
 
-### 钱端代码在
+### 前端代码在
 https://gitee.com/liuhaoyuc/vue.git
 
 
