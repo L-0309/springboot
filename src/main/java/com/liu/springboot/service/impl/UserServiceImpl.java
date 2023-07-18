@@ -187,6 +187,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         return userMapper.updatePassword(passwordDto);
     }
 
+    @Override
+    public List<Menu> getAllMenuByRole(String role) {
+        return getRoleMenus(role);
+    }
+
     private User getUserInfo(UserLoginDto userLoginDto) {
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("username", userLoginDto.getUsername()).eq("password", userLoginDto.getPassword());

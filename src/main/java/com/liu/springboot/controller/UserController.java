@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.liu.springboot.exception.ServiceException;
 import com.liu.springboot.pojo.Course;
+import com.liu.springboot.pojo.Menu;
 import com.liu.springboot.pojo.User;
 import com.liu.springboot.pojo.dto.UserLoginDto;
 import com.liu.springboot.pojo.dto.UserPasswordDto;
@@ -37,6 +38,12 @@ public class UserController {
     @PostMapping("/login")
     public Result<?> login(@RequestBody UserLoginDto userLoginDto) {
         return userService.login(userLoginDto);
+    }
+
+    @GetMapping("/limit/{role}")
+    public Result<?> findAllByRole(@PathVariable String role) {
+        List<Menu> menuList = userService.getAllMenuByRole(role);
+        return Result.success(menuList);
     }
 
     @PostMapping("/register")

@@ -3,6 +3,7 @@ package com.liu.springboot.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.liu.springboot.pojo.Menu;
 import com.liu.springboot.pojo.User;
 import com.liu.springboot.pojo.dto.UserLoginDto;
 import com.liu.springboot.pojo.dto.UserPasswordDto;
@@ -12,6 +13,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
 * @author 86183
@@ -83,4 +85,11 @@ public interface UserService extends IService<User> {
      * @return boolean
      */
     boolean updatePassword(UserPasswordDto passwordDto);
+
+    /**
+     * 获取当前角色的全部菜单信息
+     * @param role 用户角色
+     * @return {@link List}<{@link Menu}>
+     */
+    List<Menu> getAllMenuByRole(String role);
 }
