@@ -80,6 +80,8 @@ public interface Constants {
      */
     String FILES_PICTURE_KEY = "FILES_PICTURE_KEY";
 
+    String WRAPPER = "ew";
+
     /**
      * 返回前端进行封装
      * @param list 查询出的所有文件

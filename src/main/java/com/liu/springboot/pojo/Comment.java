@@ -73,6 +73,12 @@ public class Comment implements Serializable {
     @TableField(exist = false)
     private String avatarUrl;
 
+    /**
+     * 映射用来接收每个评论总数
+     */
+    @TableField(exist = false)
+    private Integer count;
+
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 }

@@ -48,6 +48,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu>
         List<Menu> parentNode = list.stream().filter(menu -> menu.getPid() == null).collect(Collectors.toList());
         //找出一级菜单的子菜单
         for (Menu menu : parentNode) {
+            //找二级菜单
             menu.setChildren(list.stream().filter(m -> menu.getId().equals(m.getPid())).collect(Collectors.toList()));
             for (Menu child : menu.getChildren()) {
                 child.setChildren(list.stream().filter(menu1 -> child.getId().equals(menu1.getPid())).collect(Collectors.toList()));

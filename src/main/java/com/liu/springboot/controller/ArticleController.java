@@ -1,5 +1,6 @@
 package com.liu.springboot.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.liu.springboot.exception.ServiceException;
 import com.liu.springboot.pojo.Article;
 import com.liu.springboot.pojo.User;
@@ -42,6 +43,14 @@ public class ArticleController {
     @GetMapping("/findAll")
     public Result<?> findAll(ArticleQueryDto articleQueryDto) {
         return Result.success(articleService.findPage(articleQueryDto));
+    }
+
+    @GetMapping("/findAll/{id}")
+    public Result<?> findAllByUserId(@PathVariable Integer id) {
+        QueryWrapper<Article> articleQueryWrapper = new QueryWrapper<>();
+        articleQueryWrapper.eq("user_id",id);
+        List<Article> articleList = articleService.list(articleQueryWrapper);
+        return Result.success(articleList);
     }
 
     @GetMapping("/detail/{id}")

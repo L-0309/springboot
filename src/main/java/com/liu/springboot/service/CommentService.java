@@ -18,4 +18,10 @@ public interface CommentService extends IService<Comment> {
      * @return {@link List}<{@link Comment}>
      */
     List<Comment> findCommentDetail(Integer articleId);
+
+    /**
+     * 获取评论的总数
+     * @return {@link List}<{@link Comment}>
+     */
+    List<Comment> findCountArticleComment();
 }

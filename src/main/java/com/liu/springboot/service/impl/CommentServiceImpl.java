@@ -25,6 +25,11 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment>
     public List<Comment> findCommentDetail(Integer articleId) {
         return commentMapper.findCommentDetail(articleId);
     }
+
+    @Override
+    public List<Comment> findCountArticleComment() {
+        return commentMapper.findCountArticleComment();
+    }
 }
 
 

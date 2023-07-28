@@ -75,6 +75,12 @@ public class CommentController {
         return Result.success();
     }
 
+    @GetMapping("/findCountArticleComment")
+    public Result<?> findCountArticleComment() {
+        List<Comment> list = commentService.findCountArticleComment();
+        return Result.success(list);
+    }
+
     @DeleteMapping("/del/{id}")
     public Result<?> delById(@PathVariable Integer id) {
         Comment comment = commentService.getById(id);

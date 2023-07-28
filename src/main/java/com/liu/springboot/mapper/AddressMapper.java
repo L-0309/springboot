@@ -1,7 +1,14 @@
 package com.liu.springboot.mapper;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.liu.springboot.pojo.Address;
+import com.liu.springboot.utils.Constants;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
 * @author 86183
@@ -11,6 +18,7 @@ import com.liu.springboot.pojo.Address;
 */
 public interface AddressMapper extends BaseMapper<Address> {
 
+    IPage<Address> listByWrapper(Page<Address> page, @Param(Constants.WRAPPER) QueryWrapper<Address> queryWrapper);
 }
 
 
