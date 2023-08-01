@@ -1,10 +1,15 @@
 package com.liu.springboot.mapper;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.liu.springboot.pojo.Article;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.liu.springboot.pojo.dto.ArticleQueryDto;
+import com.liu.springboot.utils.Constants;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
 
 /**
 * @author 86183
@@ -22,6 +27,22 @@ public interface ArticleMapper extends BaseMapper<Article> {
      * @return {@link Page}<{@link Article}>
      */
     Page<Article> findPage(Page<Article> page, @Param("article") ArticleQueryDto articleQueryDto);
+
+
+    /**
+     * 按文章 ID 查找用户 ID
+     * @param queryWrapper 条件
+     * @return {@link List}<{@link Integer}>
+     */
+    List<Integer> findUserIdByArticleId(@Param(Constants.WRAPPER) QueryWrapper<Article> queryWrapper);
+
+
+    /**
+     * 查询关注文章所有的业务类
+     * @param queryWrapper 条件
+     * @return {@link List}<{@link Article}>
+     */
+    List<Article> findAllByArticle(@Param(Constants.WRAPPER) QueryWrapper<Article> queryWrapper);
 }
 
 

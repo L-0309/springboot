@@ -1,5 +1,6 @@
 package com.liu.springboot.controller;
 
+import cn.hutool.core.date.DateUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.liu.springboot.exception.ServiceException;
 import com.liu.springboot.pojo.Article;
@@ -13,6 +14,7 @@ import com.liu.springboot.utils.VerifyUtil;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -33,6 +35,9 @@ public class ArticleController {
 
     @PostMapping("/save")
     public Result<?> save(@RequestBody Article article) {
+        if (article.getTime() == null) {
+            article.setTime(new Date());
+        }
         if (articleService.saveOrUpdate(article)) {
             return Result.success();
         }else {
